@@ -1,0 +1,11 @@
+
+ans
+dymx*((ymx + c*sin(beta_Var + q1))/(l1*(-(c^2 + 2*sin(beta_Var + q1)*c*ymx + 2*cos(beta_Var + q1)*c*ymy - 4*l1^2 + ymx^2 + ymy^2)/l1^2)^(1/2)*(c^2 + 2*sin(beta_Var + q1)*c*ymx + 2*cos(beta_Var + q1)*c*ymy + ymx^2 + ymy^2)^(1/2)) + ((ymy + c*cos(beta_Var + q1))*(ymx*cos(beta_Var + q1) - ymy*sin(beta_Var + q1)))/((1 - (c + ymy*cos(beta_Var + q1) + ymx*sin(beta_Var + q1))^2/(c^2 + 2*sin(beta_Var + q1)*c*ymx + 2*cos(beta_Var + q1)*c*ymy + ymx^2 + ymy^2))^(1/2)*(c^2 + 2*sin(beta_Var + q1)*c*ymx + 2*cos(beta_Var + q1)*c*ymy + ymx^2 + ymy^2)^(3/2))) - dymy*((ymx^2*cos(beta_Var + q1) - c*ymy + c*ymy*cos(beta_Var + q1)^2 + (c*ymx*sin(2*beta_Var + 2*q1))/2 - ymx*ymy*sin(beta_Var + q1))/((1 - (c + ymy*cos(beta_Var + q1) + ymx*sin(beta_Var + q1))^2/(c^2 + 2*sin(beta_Var + q1)*c*ymx + 2*cos(beta_Var + q1)*c*ymy + ymx^2 + ymy^2))^(1/2)*(c^2 + 2*sin(beta_Var + q1)*c*ymx + 2*cos(beta_Var + q1)*c*ymy + ymx^2 + ymy^2)^(3/2)) - (ymy + c*cos(beta_Var + q1))/(l1*(-(c^2 + 2*sin(beta_Var + q1)*c*ymx + 2*cos(beta_Var + q1)*c*ymy - 4*l1^2 + ymx^2 + ymy^2)/l1^2)^(1/2)*(c^2 + 2*sin(beta_Var + q1)*c*ymx + 2*cos(beta_Var + q1)*c*ymy + ymx^2 + ymy^2)^(1/2))) - dq1*(((ymx*cos(beta_Var + q1) - ymy*sin(beta_Var + q1))*(ymx^2 + c*sin(beta_Var + q1)*ymx + ymy^2 + c*cos(beta_Var + q1)*ymy))/((1 - (c + ymy*cos(beta_Var + q1) + ymx*sin(beta_Var + q1))^2/(c^2 + 2*sin(beta_Var + q1)*c*ymx + 2*cos(beta_Var + q1)*c*ymy + ymx^2 + ymy^2))^(1/2)*(c^2 + 2*sin(beta_Var + q1)*c*ymx + 2*cos(beta_Var + q1)*c*ymy + ymx^2 + ymy^2)^(3/2)) - (c*(ymx*cos(beta_Var + q1) - ymy*sin(beta_Var + q1)))/(l1*(-(c^2 + 2*sin(beta_Var + q1)*c*ymx + 2*cos(beta_Var + q1)*c*ymy - 4*l1^2 + ymx^2 + ymy^2)/l1^2)^(1/2)*(c^2 + 2*sin(beta_Var + q1)*c*ymx + 2*cos(beta_Var + q1)*c*ymy + ymx^2 + ymy^2)^(1/2)))
+t[hot]
+t[hot]
+-t[cold]
+-t[cold]
+beta
+Error: Unexpected 'identifier'. [line 1, col 27]
+
+
