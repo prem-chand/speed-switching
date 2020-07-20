@@ -4,7 +4,7 @@
 warning('OFF','all');
 clear all
 N=8;F=0 ;
-fix=open('fixedpointforfivelink/Switching_Control/fixed_point_F=0.mat');
+fix=open('fixedpointforfivelink/Switching_Control/fixed_point_F=0_slow.mat');
 % ival=fix.fpStates
 ival=fix.x';
 x_fix = ival(1:10);
@@ -20,7 +20,7 @@ tF=[0 50];
 Fext=[0  0];
 
 % Integrator Constants
-tfin = 5; relTol = 1e-5; absTol = 1e-4;
+tfin = 5; relTol = 1e-6; absTol = 1e-5;
 options   = odeset('Events',@(t,q) touchdown5_steps(t,q,0),...
     'RelTol',relTol,...
     'AbsTol',absTol,...
@@ -32,7 +32,9 @@ for i = 1:10
     %forward perturbation
     x_fix(i) = x_fix(i) + x;
     y0 = x_fix;
+    
     [betta,beta_c,theta_minus,theta_plus] = fcn_alpha_red_correction(ival,x_fix,N);
+    beta_c
     [~,~,~,ye,~]=...
         ode45(@(t,Z) return_map5(t,Z,Fext,tF,betta,beta_c,beta_s,theta_minus,theta_plus,M_bez,N),[0,tfin],y0,options);
     y0_plus = impact_map5(ye);
@@ -49,6 +51,7 @@ for i = 1:10
     % i-th column of A
     A(1:10,i) = (y0_plus-y0_minus)/(2*x);
     i
+%     clear beta_c
 end
 [~,v]=eig(A);
 diag(v)

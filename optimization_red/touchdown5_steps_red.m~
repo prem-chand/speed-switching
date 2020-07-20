@@ -1,0 +1,13 @@
+function [value,isterminal,direction] = touchdown5_steps_red(t,qu,d)
+
+q = fcn_qu_to_q(qu);
+
+Psfoot=fcn_position_swingfoot(q);
+
+
+value = Psfoot(2) - d;
+
+
+isterminal = 1;   % Stop the integration
+direction = -1;   % Negative direction only
+end

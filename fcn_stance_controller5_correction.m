@@ -15,6 +15,12 @@ LgforceLfh=(Lfhx)*gforce; %4*2
 Lffhc=(Lfhcx)*f;
 LgLfhc=(Lfhcx)*g;  %4*4
 LgforceLfhc=(Lfhcx)*gforce; %4*2
+
+Lffhc=zeros(4,1);
+LgLfhc=zeros(4,4);  %4*4
+LgforceLfhc=zeros(4,2); %4*2
+
+
 Lffhs=(Lfhsx)*f;
 LgLfhs=(Lfhsx)*g;  %4*4
 LgforceLfhs=(Lfhsx)*gforce; %4*2
@@ -31,15 +37,16 @@ LgLfh_inv = inv(LgLfh);
 % sai=0;
 %control law
 
-eta = [h-hc-hs ; Lfh-Lfhc-Lfhs];
+eta = [h-hs ; Lfh-Lfhs];
+% eta = [h-hc-hs ; Lfh-Lfhc-Lfhs];
 epsilon=0.1;
 Kp=16*eye(4);
 Kd=8*eye(4);
 
 %% PD Controller
-% % % % % % sai=-Kp*(eta(1:4))*(1/epsilon)^2-Kd*(eta(5:8))*(1/epsilon);
-% % % % % % % sai=0;
-% % % % % % u=(LgLfh-(LgLfhc+LgLfhs))\(sai-Lffh-LgforceLfh*Fext+Lffhc+LgforceLfhc*Fext+Lffhs+LgforceLfhs*Fext);
+sai=-Kp*(eta(1:4))*(1/epsilon)^2-Kd*(eta(5:8))*(1/epsilon);
+% sai=0;
+u=(LgLfh-(LgLfhc+LgLfhs))\(sai-Lffh-LgforceLfh*Fext+Lffhc+LgforceLfhc*Fext+Lffhs+LgforceLfhs*Fext);
 
 % u_test=(LgLfh-LgLfhc)\(sai-Lffh-LgforceLfh*Fext+Lffhc+LgforceLfhc*Fext);
 % test = u-u_test;
@@ -67,35 +74,35 @@ Kd=8*eye(4);
 %     pause(1)
 % end
 %% QP Controller
-A = [zeros(4,4) eye(4,4) ; -Kp -Kd];
-Q = eye(8);
-P = lyap(A',Q);
-I_eps = [(1/epsilon)*eye(4) zeros(4) ; zeros(4) eye(4)];
-P_eps = I_eps*P*I_eps;
-V_eps = eta'*P_eps*eta;
-[~,eig_Q] = eig(Q);
-[~,eig_P] = eig(P);
-c3 = min(eig(Q))/max(eig(P));
-F = [zeros(4) eye(4) ; zeros(4) zeros(4)];
-G = [zeros(4) ; eye(4)];
-psi_0 = eta'*(F'*P_eps + P_eps*F)*eta + (c3/epsilon)*V_eps;
-psi_1 = (2*eta'*P_eps*G);
-u_min = -100; % Nm
-u_max = 100;  % Nm
-FV_min = 100; % min vertical force Newton
-kf = 0.8; % Friction Coefficient
-u_star = (LgLfh-(LgLfhc+LgLfhs))\(-Lffh-LgforceLfh*Fext+Lffhc+LgforceLfhc*Fext+Lffhs+LgforceLfhs*Fext);
-[psi_H1,psi_H2,psi_V1,psi_V2] = fcn_GRF_QP_ineq(Y,u_star,LgLfh_inv);
-p1 = 1e8;
-H = [2*eye(4) zeros(4,1) ; zeros(1,4) 2*p1]; % matrix of the quadratic cost, p1 is the penalty
-f_lin = zeros(1,5)';
-A_ineq = [psi_1 -1 ; -LgLfh_inv zeros(4,1) ; LgLfh_inv zeros(4,1) ; -psi_V2 0 ; psi_H2-kf*psi_V2 0 ; -psi_H2-kf*psi_V2 0];
-B_ineq = [-psi_0 ; u_star-u_min ; u_max-u_star ; psi_V1-FV_min ; kf*psi_V1-psi_H1 ; kf*psi_V1+psi_H1];
-
-options = optimoptions('quadprog','Display','off');
-optim_sol = quadprog(H,f_lin,A_ineq,B_ineq,[],[],[],[],[],options);
-mu = optim_sol(1:4,1);
-u = u_star + (LgLfh_inv)*mu;
+% A = [zeros(4,4) eye(4,4) ; -Kp -Kd];
+% Q = eye(8);
+% P = lyap(A',Q);
+% I_eps = [(1/epsilon)*eye(4) zeros(4) ; zeros(4) eye(4)];
+% P_eps = I_eps*P*I_eps;
+% V_eps = eta'*P_eps*eta;
+% [~,eig_Q] = eig(Q);
+% [~,eig_P] = eig(P);
+% c3 = min(eig(Q))/max(eig(P));
+% F = [zeros(4) eye(4) ; zeros(4) zeros(4)];
+% G = [zeros(4) ; eye(4)];
+% psi_0 = eta'*(F'*P_eps + P_eps*F)*eta + (c3/epsilon)*V_eps;
+% psi_1 = (2*eta'*P_eps*G);
+% u_min = -100; % Nm
+% u_max = 100;  % Nm
+% FV_min = 100; % min vertical force Newton
+% kf = 0.8; % Friction Coefficient
+% u_star = (LgLfh-(LgLfhc+LgLfhs))\(-Lffh-LgforceLfh*Fext+Lffhc+LgforceLfhc*Fext+Lffhs+LgforceLfhs*Fext);
+% [psi_H1,psi_H2,psi_V1,psi_V2] = fcn_GRF_QP_ineq(Y,u_star,LgLfh_inv);
+% p1 = 1e8;
+% H = [2*eye(4) zeros(4,1) ; zeros(1,4) 2*p1]; % matrix of the quadratic cost, p1 is the penalty
+% f_lin = zeros(1,5)';
+% A_ineq = [psi_1 -1 ; -LgLfh_inv zeros(4,1) ; LgLfh_inv zeros(4,1) ; -psi_V2 0 ; psi_H2-kf*psi_V2 0 ; -psi_H2-kf*psi_V2 0];
+% B_ineq = [-psi_0 ; u_star-u_min ; u_max-u_star ; psi_V1-FV_min ; kf*psi_V1-psi_H1 ; kf*psi_V1+psi_H1];
+% 
+% options = optimoptions('quadprog','Display','off');
+% optim_sol = quadprog(H,f_lin,A_ineq,B_ineq,[],[],[],[],[],options);
+% mu = optim_sol(1:4,1);
+% u = u_star + (LgLfh_inv)*mu;
 
 
 % Fext
