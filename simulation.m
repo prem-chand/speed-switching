@@ -10,7 +10,7 @@ simout.t=[];simout.stk=[];simout.h=[]; simout.swk=[]; simout.swf=[]; simout.head
 epsl=0.1;
 tF=[0 1000];
 Fext=[0   0]';
-d = 2.5;
+d = 0;
 num_steps = 10;
 P =[0.1313         0         0         0    0.0031         0         0         0
     0    0.1313         0         0         0    0.0031         0         0
@@ -29,8 +29,8 @@ P =[0.1313         0         0         0    0.0031         0         0         0
 %          0         0    0.0313         0         0         0    0.0664         0;
 %          0         0         0    0.0313         0         0         0    0.0664];
 
-% fix=open('fixedpointforfivelink/Switching_Control/fixed_point_d=1cm.mat');
-fix = open('optimization_red/fp1-2p5.mat');
+fix=open('fixedpointforfivelink/Switching_Control/fixed_point_F=0_slow.mat');
+% fix = open('optimization_red/fp1-2p5.mat');
 % fix = open('optimization_red/fixed_point_guess1.mat');
 % ival=fix.fpStates';
 %fix=open('/Users/mohamadshafiee/Desktop/Reasearch/programming/5 link RABBIT/fixedpointforfivelink/fixed_stairs3.mat');
